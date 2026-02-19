@@ -23,30 +23,51 @@ def module_env_manager(environment: str):
     print("[Task 1] Checking out updated repository...")
     
     valid_envs = ['DEV', 'TEST', 'PROD']
-    if environment.upper() in valid_envs:
-        print(f"[Task 3] Selected Environment: {environment.upper()}")
+    env_upper = environment.upper()
+    if env_upper in valid_envs:
+        print(f"[Task 3] Selected Environment: {env_upper}")
     else:
         print(f"[Task 3] Error: {environment} is not a valid choice.")
     print("-" * 30)
 
 # ==========================================
-# MAIN EXECUTION (The "Jenkins" Trigger)
+# VERSION 3: THE FILE MODULE
+# ==========================================
+def module_file_handler(build_name: str):
+    """Handles BUILD_NAME input (String Parameter)"""
+    print("\n--- Version 3: Logic (File Handler) ---")
+    print("[Task 1] Checking out repository...")
+    
+    # Task 3: Create a file with BUILD_NAME as content
+    filename = "build_info.txt"
+    try:
+        with open(filename, "w") as f:
+            f.write(build_name)
+        print(f"[Task 3] Created '{filename}' with content: {build_name}")
+    except Exception as e:
+        print(f"[Task 3] Failed to create file: {e}")
+    print("-" * 30)
+
+# ==========================================
+# MAIN EXECUTION
 # ==========================================
 if __name__ == "__main__":
-    # Simulating Jenkins Parameter Inputs
-    # In a real Jenkins job, these would come from the UI
+    # Simulating the parameters usually passed by the Jenkins UI
     jenkins_params = {
-        "RUN_TEST": True,           # Boolean Parameter
-        "ENVIRONMENT": "TEST",      # Choice Parameter
-        "BUILD_NAME": "Build_v2.0"  # String Parameter
+        "RUN_TEST": True,
+        "ENVIRONMENT": "PROD",
+        "BUILD_NAME": "Production_Release_v3.0"
     }
 
-    print(f"--- STARTING PIPELINE: {jenkins_params['BUILD_NAME']} ---")
+    print(f"--- STARTING PIPELINE EXECUTION ---")
     
-    # Execute Version 1 logic
+    # Step 1: Run Boolean Logic
     module_test_runner(jenkins_params["RUN_TEST"])
     
-    # Execute Version 2 logic
+    # Step 2: Run Choice Logic
     module_env_manager(jenkins_params["ENVIRONMENT"])
+    
+    # Step 3: Run String/File Logic
+    module_file_handler(jenkins_params["BUILD_NAME"])
 
     print("\n--- PIPELINE FINISHED SUCCESSFULLY ---")
